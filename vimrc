@@ -150,7 +150,7 @@ if executable("ack")
 endif
 
 " Color scheme
-colorscheme vividchalk
+colorscheme ir_black
 highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
@@ -189,7 +189,10 @@ map <c-o> :ls<Enter>
 " yank line - Copy line
 map <c-c> Y
 " Jump to symbol for Ruby
-nmap <c-t> /^ *def
+" nmap <c-t> /^ *def
+" handy split windows navigation
+map <C-J> <C-W>j<C-W>_
+map <C-K> <C-W>k<C-W>_
 
 " ABBREVIATIONS : Automatically Insert Braces, quotes and other stuff
 " Automatically Close Brackets 

@@ -599,7 +599,8 @@ function! s:ProcessedLine(uncomment, match, checkRx, replace)
     let s:pos_end = getpos('.')
     let s:pos_end[2] += len(rv)
     " TLogVAR pe, md, a:match
-    let rv = escape(rv, '\')
+    let rv = escape(rv, '\
+')
     let rv = substitute(rv, '\n', '\\\n', 'g')
     return rv
 endf
