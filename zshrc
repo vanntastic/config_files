@@ -14,7 +14,7 @@ if [ -e "$HOME/.aliases" ]; then
 fi
 
 # vi mode
-bindkey -v
+# bindkey -v
 
 # use incremental search
 bindkey ^R history-incremental-search-backward
