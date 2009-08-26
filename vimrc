@@ -155,8 +155,8 @@ highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Numbers
-set number
-set numberwidth=5
+" set number
+" set numberwidth=1
 
 " Snippets are activated by Shift+Tab
 let g:snippetsEmu_key = "<S-Tab>"
@@ -174,3 +174,39 @@ set smartcase
 " Tags
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
+" My shortcuts
+" Map bol and eol to the same style as the shell
+map <C-e> $
+map <C-a> ^
+" Insert text into the next line
+map <C-i> A<Enter>
+" Quit real quick without saving
+map <C-x> :q!<Enter>
+" Close buffer
+" map <c-w> :bd<Enter>
+" Open files
+map <c-o> :ls<Enter>
+" yank line - Copy line
+map <c-c> Y
+" Jump to symbol for Ruby
+nmap <c-t> /^ *def
+
+" ABBREVIATIONS : Automatically Insert Braces, quotes and other stuff
+" Automatically Close Brackets 
+inoremap          (   ()<LEFT>
+inoremap <silent> )   )<ESC>
+                      \:let tmp0=&clipboard <BAR>
+                      \let &clipboard=''<BAR>
+                      \let tmp1=@"<BAR>
+                      \let tmp2=@0<CR>
+                      \y2l
+                      \:if '))'=="<C-R>=escape(@0,'"\')<CR>"<BAR>
+                      \  exec 'normal "_x'<BAR>
+                      \endif<BAR>
+                      \let @"=tmp1<BAR>
+                      \let @0=tmp2<BAR>
+                      \let &clipboard=tmp0<BAR>
+                      \unlet tmp0<BAR>
+                      \unlet tmp1<BAR>
+                      \unlet tmp2<CR>
+                      \a
