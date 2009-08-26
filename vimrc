@@ -97,6 +97,10 @@ map <Leader>sv :RSview
 map <Leader>su :RSunittest 
 map <Leader>sf :RSfunctionaltest 
 
+" Leader shortcut for file browsing
+map <Leader>d :Ex<Enter>
+map <Leader>l :ls<Enter>
+
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
 
