@@ -1,60 +1,158 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
 set nocompatible
-set selectmode=mouse
-set backupdir=/tmp
-set directory=/tmp
-set guioptions-=T
-set wildmode=longest
-set errorfile=/tmp/rutkowsk.errors.log
-set ic
-" Sets tab stops to 2 spaces and autoindents and expands the tab
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+set nobackup
+set nowritebackup
+set history=50		" keep 50 lines of command line history
+set ruler		" show the cursor position all the time
+set showcmd		" display incomplete commands
+set incsearch		" do incremental searching
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" This is an alternative that also works in block mode, but the deleted
+" text is lost and it only works for putting the current register.
+"vnoremap p "_dp
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+  syntax on
+  set hlsearch
+endif
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
+  filetype plugin indent on
+
+  " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
+
+  " For all text files set 'textwidth' to 78 characters.
+  autocmd FileType text setlocal textwidth=78
+
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal g`\"" |
+    \ endif
+
+  augroup END
+
+else
+
+  set autoindent		" always set autoindenting on
+
+endif " has("autocmd")
+
+" if has("folding")
+  " set foldenable
+  " set foldmethod=syntax
+  " set foldlevel=1
+  " set foldnestmax=2
+  " set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
+" endif
+
+" Softtabs, 2 spaces
+set tabstop=2
 set shiftwidth=2
 set expandtab
-set autoindent
 
-set ruler
-set sm
-set fileformats=dos,unix,mac
-" highlight StatusLineNC guifg=#ff0000 guibg=#000000
-" highlight StatusLine guifg=#00ff00 guibg=#000000
-" set hls
-hi Normal guibg=black guifg=white
-hi Search guibg=white guifg=black
-hi IncSearch guibg=white guifg=black
-set tags=./tags
-set mousef
-syntax on
+" Always display the status line
+set laststatus=2
 
-set ls=2 " Always show status line
-if has('statusline')
-   " Status line detail:
-   " %f     file path
-   " %y     file type between braces (if defined)
-   " %([%R%M]%)   read-only, modified and modifiable flags between braces
-   " %{'!'[&ff=='default_file_format']}
-   "        shows a '!' if the file format is not the platform
-   "        default
-   " %{'$'[!&list]}  shows a '*' if in list mode
-   " %{'~'[&pm=='']} shows a '~' if in patchmode
-   " (%{synIDattr(synID(line('.'),col('.'),0),'name')})
-   "        only for debug : display the current syntax item name
-   " %=     right-align following items
-   " #%n    buffer number
-   " %l/%L,%c%V   line number, total number of lines, and column number
-   function SetStatusLineStyle()
-      if &stl == '' || &stl =~ 'synID'
-         let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]}%{'~'[&pm=='']}%=#%n %l/%L,%c%V "
-      else
-         let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]} (%{synIDattr(synID(line('.'),col('.'),0),'name')})%=#%n %l/%L,%c%V "
-      endif
-   endfunc
-   " Switch between the normal and vim-debug modes in the status line
-   nmap _ds :call SetStatusLineStyle()<CR>
-   call SetStatusLineStyle()
-   " Window title
-   if has('title')
-      set titlestring=%t%(\ [%R%M]%)
-   endif
+" \ is the leader character
+let mapleader = "\\"
+
+" Edit the README_FOR_APP (makes :R commands work)
+map <Leader>R :e doc/README_FOR_APP<CR>
+
+" Leader shortcuts for Rails commands
+map <Leader>m :Rmodel 
+map <Leader>c :Rcontroller 
+map <Leader>v :Rview 
+map <Leader>u :Runittest 
+map <Leader>f :Rfunctionaltest 
+map <Leader>tm :RTmodel 
+map <Leader>tc :RTcontroller 
+map <Leader>tv :RTview 
+map <Leader>tu :RTunittest 
+map <Leader>tf :RTfunctionaltest 
+map <Leader>sm :RSmodel 
+map <Leader>sc :RScontroller 
+map <Leader>sv :RSview 
+map <Leader>su :RSunittest 
+map <Leader>sf :RSfunctionaltest 
+
+" Hide search highlighting
+map <Leader>h :set invhls <CR>
+
+" Opens an edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>e
+map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+
+" Opens a tab edit command with the path of the currently edited file filled in
+" Normal mode: <Leader>t
+map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+" Inserts the path of the currently edited file into a command
+" Command mode: Ctrl+P
+cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+
+" Maps autocomplete to tab
+imap <Tab> <C-N>
+
+" Duplicate a selection
+" Visual mode: D
+vmap D y'>p
+
+" For Haml
+au! BufRead,BufNewFile *.haml         setfiletype haml
+
+" No Help, please
+nmap <F1> <Esc>
+
+" Press ^F from insert mode to insert the current file name
+imap <C-F> <C-R>=expand("%")<CR>
+
+" Press Shift+P while in visual mode to replace the selection without
+" overwriting the default register
+vmap P p :call setreg('"', getreg('0')) <CR>
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·
+
+" Edit routes
+command! Rroutes :e config/routes.rb
+command! RTroutes :tabe config/routes.rb
+
+" Local config
+if filereadable(".vimrc.local")
+  source .vimrc.local
 endif
+
+" Use Ack instead of Grep when available
+if executable("ack")
+  set grepprg=ack\ -H\ --nogroup\ --nocolor
+endif
+
+" Color scheme
+colorscheme vividchalk
+highlight NonText guibg=#060606
+highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Map bol and eol to the same style as the shell
 map <C-e> $
@@ -69,59 +167,19 @@ map <C-x> :q!<Enter>
 map <c-o> :ls<Enter>
 " yank line - Copy line
 map <c-c> Y
-" Jump to symbol for Ruby
-nmap <c-t> /^ *def 
 
-" ABBREVIATIONS : Automatically Insert Braces, quotes and other stuff
-" Automatically Close Brackets 
-inoremap          (   ()<LEFT>
-inoremap <silent> )   )<ESC>
-                      \:let tmp0=&clipboard <BAR>
-                      \let &clipboard=''<BAR>
-                      \let tmp1=@"<BAR>
-                      \let tmp2=@0<CR>
-                      \y2l
-                      \:if '))'=="<C-R>=escape(@0,'"\')<CR>"<BAR>
-                      \  exec 'normal "_x'<BAR>
-                      \endif<BAR>
-                      \let @"=tmp1<BAR>
-                      \let @0=tmp2<BAR>
-                      \let &clipboard=tmp0<BAR>
-                      \unlet tmp0<BAR>
-                      \unlet tmp1<BAR>
-                      \unlet tmp2<CR>
-                      \a
+" Snippets are activated by Shift+Tab
+let g:snippetsEmu_key = "<S-Tab>"
 
-" If the context in which you hit tab is one where one would regularly hit tab
-" then tab will return a tab, otherwise it will tab-complete the word currently
-" being typed
-function InsertTabWrapper()
-      let col = col('.') - 1
-      if !col || getline('.')[col - 1] !~ '\k'
-          return "\<tab>"
-      else
-          return "\<c-p>"
-      endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+" Tab completion options
+" (only complete to the longest unambiguous match, and show a menu)
+set completeopt=longest,menu
+set wildmode=list:longest,list:full
+set complete=.,t
 
-" Vim color file
-" Maintainer:   Shirk <shirk@gmx.net>
-" Last Change:  19 September 2005 - 0.2
-" URL: trinity.gentoofreaks.org
+" case only matters with mixed case expressions
+set ignorecase
+set smartcase
 
-" cool help screens
-" :he group-name
-" :he highlight-groups
-" :he cterm-colors
-
-set background=dark "or light
-hi clear
-if exists("syntax_on")
-  syntax reset
-endif
-
-" Color scheme
-colorscheme vividchalk
-highlight NonText guibg=#060606
-highlight Folded  guibg=#0A0A0A guifg=#9090D0
+" Tags
+let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
