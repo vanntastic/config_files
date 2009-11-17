@@ -653,7 +653,7 @@ function db_dump () {
 # dollar sign minimal
 # PS1="\W : \\$ "
 # caret minimal
-PS1="\W> "
+# PS1="\W> "
 
 case "$TERM" in
 xterm*|rxvt*|vt100*)
@@ -663,13 +663,12 @@ xterm*|rxvt*|vt100*)
     ;;
 esac
 
-# git stuff
-# parse_git_branch() {
-#   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-# }
-# PS1="\w\$(parse_git_branch) $ "
+## GIT stuff
+# super minimal prompt that'll display git branch if you're in the a git repo
+PS1='\W$(__git_ps1 " [%s]")> '
+# git completion provided from the git repo at : http://bit.ly/26GbPb
+source ~/.git_completion
 
-#customize tabs and title
+# customize tabs and title
 # PS1=$'\[\e];\]$PWD\[\a\]\[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]\u >> '
-
 # PS1=$'\[\e]2;\]$PWD\[\a\]\[\e]1;$(basename $(dirname $PWD))/\W\[\a\]\$ '
