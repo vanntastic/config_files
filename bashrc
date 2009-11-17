@@ -665,7 +665,7 @@ esac
 
 ## GIT stuff
 # super minimal prompt that'll display git branch if you're in the a git repo
-PS1='\W$(__git_ps1 " [%s]")> '
+PS1='\W$(__git_ps1 ":%s")> '
 # git completion provided from the git repo at : http://bit.ly/26GbPb
 source ~/.git_completion
 
