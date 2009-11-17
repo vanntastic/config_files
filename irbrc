@@ -895,8 +895,8 @@ if @script_console_running
         co "-b #{name}"
       end
       
-      # alias for branch
-      def b; system("git branch"); end
+      # alias to get current branch as a string
+      def b; `git branch`.gsub("\n","").split("*").last.strip; end
       
       # alias for :
       #   git co master
@@ -905,7 +905,7 @@ if @script_console_running
       # branch defaults to the current branch, so you can simply say:
       #   git.merge # => merges the current branch with master
       def merge(branch=nil)
-        branch ||= `git branch`.gsub("\n","").split("*").last.strip
+        branch ||= b
         puts "Merging #{branch} with master..."
         co "master"
         system("git pull . #{branch}")
@@ -919,8 +919,11 @@ if @script_console_running
       end
       
       # git.push 'args' 
+      # it pushes the master branch || current branch by default
       def push(args=nil)
-        args.nil? ? system("git push") : system("git push #{args}")
+        current_branch = b == "master" ? "" : "origin #{b}"
+        puts("Pushing branch : #{b}...") if b != "master"
+        cmd = args.nil? ? system("git push #{current_branch}") : system("git push #{args}")
       end
       
       # git.url
@@ -960,7 +963,7 @@ if @script_console_running
       end
       
       def diff
-        system "git diff"
+        system("git diff")
       end
       
     end
