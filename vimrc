@@ -96,8 +96,9 @@ map <Leader>sc :RScontroller
 map <Leader>sv :RSview 
 map <Leader>su :RSunittest 
 map <Leader>sf :RSfunctionaltest 
-map <Leader>s :w
-map <Leader>sq :wq!
+map <Leader>w :w
+map <Leader>q :q
+map <Leader>wq :wq!
 
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
