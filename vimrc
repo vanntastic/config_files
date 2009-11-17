@@ -99,8 +99,6 @@ map <Leader>sf :RSfunctionaltest
 map <Leader>w :w
 map <Leader>q :q
 map <Leader>wq :wq!
-" \\ to get back into normal mode
-:imap <Leader><Leader> <Esc>
 
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
