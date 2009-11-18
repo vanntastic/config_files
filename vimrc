@@ -164,10 +164,14 @@ map <C-a> ^
 map <C-i> A<Enter>
 " Quit real quick without saving
 map <C-x> :q!<Enter>
+" Close the buffer
+map <C-d> :bd<Enter>
 " Close buffer
 " map <c-w> :bd<Enter>
-" Open files
-map <c-o> :ls<Enter>
+" Fuzzyfinder mapping
+map <c-o> :FufBuffer<Enter> 
+map <c-t> :FufJumpList<Enter>
+map <c-f> :FufFile<Enter>
 " yank line - Copy line
 map <c-c> Y
 
