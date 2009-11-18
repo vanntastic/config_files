@@ -96,7 +96,7 @@ map <Leader>sc :RScontroller
 map <Leader>sv :RSview 
 map <Leader>su :RSunittest 
 map <Leader>sf :RSfunctionaltest 
-map <Leader>w :w
+map <Leader><Leader> :w<CR>
 map <Leader>q :q
 map <Leader>wq :wq!
 
@@ -163,12 +163,15 @@ map <C-a> ^
 " Insert text into the next line
 map <C-i> A<Enter>
 " Quit real quick without saving
-map <C-x> :q!<Enter>
+map <C-x> :q<Enter>
 " Close the buffer
 map <C-d> :bd<Enter>
 " Close buffer
 " map <c-w> :bd<Enter>
-" Fuzzyfinder mapping
+" Fuzzyfinder mappings
+map <Leader>o :FufBuffer<Enter>
+map <Leader>t :FufJumpList<Enter>
+map <Leader>f :FufFile<Enter>
 map <c-o> :FufBuffer<Enter> 
 map <c-t> :FufJumpList<Enter>
 map <c-f> :FufFile<Enter>
