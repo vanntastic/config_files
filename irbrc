@@ -896,7 +896,10 @@ if @script_console_running
       end
       
       # alias to get current branch as a string
-      def b; `git branch`.gsub("\n","").split("*").last.strip; end
+      def b
+        b = `git branch`.gsub("\n","").split("  ").delete_if {|i| i.first != "*"}
+        b.first.gsub("* ","")
+      end
       
       # alias for :
       #   git co master
