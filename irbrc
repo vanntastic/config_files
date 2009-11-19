@@ -897,7 +897,7 @@ if @script_console_running
       
       # alias to get current branch as a string
       def b
-        b = `git branch`.gsub("\n","").split("  ").delete_if {|i| i.first != "*"}
+        b = `git branch`.split("\n").delete_if { |i| i.first != "*" }
         b.first.gsub("* ","")
       end
       
