@@ -1116,13 +1116,16 @@ if @script_console_running
     rake_cmd << "       + :rollback => Migrates down one \n"
     rake_cmd << "   rake.load_fixtures [:development|:test|:both] \n"
     rake_cmd << "     - loads the fixture defaults to development env \n"
-    rake_cmd << "   rake.tasks \n"
+    rake_cmd << "   rake.tasks[filter] \n"
     rake_cmd << "     - shows all the available rake tasks using less\n"
     rake_cmd << "   rake.call 'any available rake task'\n"
     rake_cmd << "     - calls any rake taks that you want to call"
     
     rake_cmd.instance_eval do
-      def tasks; system("rake -T | less"); end
+      def tasks(filter=nil)
+        cmd = filter.nil? ? "rake -T | less" : "rake -T | grep #{filter}"
+        system cmd
+      end
       
       def call(task)
         system("rake #{task}")
