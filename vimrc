@@ -100,6 +100,8 @@ map <Leader><Leader> :w<CR>
 map <Leader>q :q
 map <Leader>wq :wq!
 
+" Git diff on the current file
+map <Leader>d :!git diff % <CR>
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
 
