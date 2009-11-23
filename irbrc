@@ -907,7 +907,7 @@ if @script_console_running
       #   git co [branch]
       # branch defaults to the current branch, so you can simply say:
       #   git.merge # => merges the current branch with master
-      def merge(branch=nil)
+      def merge_master(branch=nil)
         branch ||= b
         puts "Merging #{branch} with master..."
         co "master"
