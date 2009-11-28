@@ -501,14 +501,22 @@ if @script_console_running
                 not_versioned = !uses_git && !uses_svn
                 
                 repo_type = "[svn]" if uses_svn
-                repo_type = "[git]" if uses_git
+                if uses_git
+                  git_config = File.join(update_path,".git","config")
+                  git_config = `cat #{git_config}`
+                  git_config = git_config.split("\n\t").select{ |c| c =~ /url/ }
+                  repos = git_config.join(", ")
+                  repo_type = "[git] \nREMOTES : #{repos}"
+                end
                 repo_type = "[not versioned]" if not_versioned
                 
                 puts "STATUS OF : #{d} #{repo_type}"
                 system("cd #{update_path};git st") if uses_git
                 svn.st(update_path) if uses_svn
                 puts "#{d} not versioned" if not_versioned
-                puts "--"
+                footer = "*" * 60
+                puts "#{footer}\n\n"
+                
               end
             end
           
