@@ -337,7 +337,7 @@ if @script_console_running
       type = :func if (type == :functional || type == :controller)
       case type
         when :unit
-          test_cmd = "specrb -as test/unit/#{file.to_s}_test.rb"
+          test_cmd = "specrb -as test/unit/#{file.to_s}_test.rb"  
         when :func 
           test_cmd = "specrb -as test/functional/#{file.to_s}_controller_test.rb"
         when :plugin
@@ -351,6 +351,7 @@ if @script_console_running
       # runs said spec commands and appends a name if given
       unless type == :all
         test_cmd << " -n '#{test_name}'" unless test_name.nil?
+        test_cmd ='kicker --no-growl -e "' << test_cmd << '" .' if system("which kicker")
         system(test_cmd)
       end
       
