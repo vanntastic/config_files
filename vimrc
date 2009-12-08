@@ -2,6 +2,10 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Speed optimizations
+set lz
+set ttyfast
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 

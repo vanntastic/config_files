@@ -18,10 +18,10 @@ alias ip='ifconfig | grep inet'
 alias flush_dns='dscacheutil -flushcache'
 
 # **** STUFF FOR IRB ****
-alias irbrc='mate ~/.irbrc'
+alias irbrc='vi ~/.irbrc'
 
 # **** BASH EDITING ****
-alias bashrc='mate ~/.bashrc'
+alias bashrc='vi ~/.bashrc'
 alias reload_bash='. ~/.bashrc;. ~/.bash_login'
 alias lsa='ls -Al'
 
