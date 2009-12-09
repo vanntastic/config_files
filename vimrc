@@ -103,7 +103,7 @@ map <Leader>sf :RSfunctionaltest
 map <Leader><Leader> :w<CR>
 map <Leader>q :q
 map <Leader>wq :wq!
-
+map <Leader>] :!
 " Git diff on the current file
 map <Leader>d :!git diff % <CR>
 " Hide search highlighting
