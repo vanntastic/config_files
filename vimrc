@@ -101,8 +101,13 @@ map <Leader>sv :RSview
 map <Leader>su :RSunittest 
 map <Leader>sf :RSfunctionaltest 
 map <Leader><Leader> :w<CR>
-map <Leader>q :q
+" Split window
+map <Leader><space> :sp<CR>
+" Close the buffer
+map <Leader>q :bd<CR>
+" Close vim and save
 map <Leader>wq :wq!
+" access to commands
 map <Leader>] :!
 " Git diff on the current file
 map <Leader>d :!git diff % <CR>
