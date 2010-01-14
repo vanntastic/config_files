@@ -141,6 +141,13 @@ nmap <F1> <Esc>
 
 " Press ^F from insert mode to insert the current file name
 imap <C-F> <C-R>=expand("%")<CR>
+" Shortcut for hash arrow
+imap <C-m> =>
+" Beginning and end of line in insert mode
+imap <C-a> <C-c><C-a>i
+imap <C-e> <C-c><C-e>a
+" Undo
+imap <C-z> <C-c>ui
 
 " Press Shift+P while in visual mode to replace the selection without
 " overwriting the default register
