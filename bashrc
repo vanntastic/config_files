@@ -111,6 +111,14 @@ setup_keys () {
   fi
 }
 
+# run kicker hook for test/spec
+kick_spec () {
+  if [[ -n "$1" ]]; then
+    kicker -e "specrb -as $1" .
+  else
+    echo "USAGE : kick_spec [path/to/test]"
+  fi
+}
 
 jquery_install_plugin () {
 	if [[ -n "$1" ]]; then
