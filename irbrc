@@ -924,9 +924,16 @@ if @script_console_running
         co branch
       end
       
+      # git.add # => adds all new files
+      def add
+        system("git add .")
+      end
+      
       # git.ci 'msg'
-      def ci(msg=nil)
-        cmd = msg.nil? ? "git add .;git commit" : "git add .;git commit -m '#{msg}'"
+      # git.ci 'did something cool', true # => auto adds any new files
+      def ci(msg=nil,auto_add=false)
+        cmd = auto_add? ? "git add .;git commit" : "git commit" 
+        cmd = cmd << " -m '#{msg}'" unless msg.nil?
         system cmd
       end
       
