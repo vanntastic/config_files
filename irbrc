@@ -933,7 +933,7 @@ if @script_console_running
       # git.ci 'did something cool', true # => auto adds any new files
       def ci(msg=nil,auto_add=false)
         add if auto_add
-        cmd = msg.nil? ? "git commit" : "git commit -m '#{msg}'"
+        cmd = msg.nil? ? "git commit" : "git commit -am '#{msg}'"
         system cmd
       end
       
