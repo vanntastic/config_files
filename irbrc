@@ -565,6 +565,7 @@ if @script_console_running
   def models(with_attributes=nil)
     list = File.expand_path("app/models")
     list_ary = Dir.entries(list).select{|x| x[0..0] != "."}
+    return "No Models" if list_ary.blank?
     list_ary.map!{|f| f.split(".")[0].camelize}
     list_ary.map!{|l| [eval(l).schema] unless eval(l).nil?} unless with_attributes.nil?
     footer = "="*list_ary.last.length
