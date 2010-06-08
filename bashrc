@@ -9,6 +9,8 @@
 # **** MEMCACHED STUFF ****
 EVENT_NOKQUEUE=yes
 alias memcached_start='memcached -d -m 24 -p 11211 -vv; echo "memcache started on 11211"'
+alias memcached_kill='killall memcached'
+alias memcache_connect='telnet localhost 11211'
 
 # **** SYSTEM STUFF ****
 alias trail='tail -f'
