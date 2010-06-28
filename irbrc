@@ -911,6 +911,11 @@ if @script_console_running
         b.first.gsub("* ","")
       end
       
+      # opens gitx
+      def x
+        system 'gitx'
+      end
+      
       # alias for :
       #   git co master
       #   git pull . [branch]
