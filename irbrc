@@ -930,6 +930,10 @@ if @script_console_running
         co branch
       end
       
+      def merge(cmd)
+        system "git merge #{cmd}"
+      end
+      
       # git.add # => adds all new files
       def add
         system("git add .")
