@@ -58,12 +58,12 @@ alias e='mate'
 alias old_deploy='cap _1.4.1_ deploy'
 
 # **** GIT ALIASES ****
-alias git_url='cat .git/config | grep url'
-alias git_ci='git ci -a -m '
-alias git_config='cat .git/config | less'
-alias git_ignore='vi .git/info/exclude'
-alias git_add='git add .'
-alias git_unstage='git co HEAD .'
+alias git-url='cat .git/config | grep url'
+alias git-ci='git ci -a -m '
+alias git-config='cat .git/config | less'
+alias git-ignore='vi .git/info/exclude'
+alias git-add='git add .'
+alias git-unstage='git co HEAD .'
 
 # **** START SYNERGY HERE **** 
 alias start_synergy_xp='/Applications/synergy/synergys -f --config /Users/vann/synergy_xp.conf'
