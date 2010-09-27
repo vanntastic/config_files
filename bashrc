@@ -61,7 +61,7 @@ alias old_deploy='cap _1.4.1_ deploy'
 alias git-url='cat .git/config | grep url'
 alias git-ci='git ci -a -m '
 alias git-config='cat .git/config | less'
-alias git-ignore='vi .git/info/exclude'
+alias git-ignore='vi .gitignore'
 alias git-add='git add .'
 alias git-unstage='git co HEAD .'
 
@@ -682,3 +682,5 @@ source ~/.git_completion
 # customize tabs and title
 # PS1=$'\[\e];\]$PWD\[\a\]\[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]\u >> '
 # PS1=$'\[\e]2;\]$PWD\[\a\]\[\e]1;$(basename $(dirname $PWD))/\W\[\a\]\$ '
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
