@@ -3,6 +3,7 @@ require 'rubygems'
 require 'irb/completion'
 require 'logger'
 # this is kind of stupid ... you have to gem the wirble gem and then send a require 
+# NOTE : you have to add thees gems to your Gemfile for rails 3 compatibility
 gem 'wirble'
 require 'wirble'
 gem 'map_by_method'
@@ -16,22 +17,30 @@ IRB.conf[:AUTO_INDENT]=true
 #list of editors for use with editing and opening files, you can re-arrange as to set precedence of what to use
 EDITORS = %w{mate jedit} unless Object.const_defined?(:EDITORS)
 
-#inline console logging
-@script_console_running = ENV.include?('RAILS_ENV') && IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers')
-@rails_running = ENV.include?('RAILS_ENV') && !(IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
-@irb_standalone_running = !@script_console_running && !@rails_running
+def rails2_compatible?
+  @script_console_running = ENV.include?('RAILS_ENV') && IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers')
+  @rails_running = ENV.include?('RAILS_ENV') && !(IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
+end
 
-if @script_console_running && !Object.constants.include?("RAILS_DEFAULT_LOGGER")
-  Object.const_set(:RAILS_DEFAULT_LOGGER, Logger.new(STDOUT))
-  # require 'active_record'
-  # require 'active_record/fixtures'
+def rails3_compatible?
+  Object.constants.include?("Rails")
+end
+
+def add_console_logging
+  if (rails2_compatible? || rails3_compatible?) && !Object.constants.include?("RAILS_DEFAULT_LOGGER")
+    Object.const_set(:RAILS_DEFAULT_LOGGER, Logger.new(STDOUT))
+  end
+end
+
+def irb_standalone?
+  @irb_standalone_running = !@script_console_running && !@rails_running
 end
 
 # reloads the irb console can be useful for debugging .irbrc
 def reload_irb
   load File.expand_path("~/.irbrc")
   # will reload rails env if you are running ./script/console
-  reload! if @script_console_running
+  reload! if rails2_compatible?
   puts "Console Reloaded!"
 end
 
@@ -48,7 +57,7 @@ def q; quit; end
 # if you need the standard output do :
 #   - show :model, :standard
 def show(obj=nil,return_type=:less)
-  if @irb_standalone_running
+  if irb_standalone?
     puts "Sorry, this must be used inside script/console"  
   else
     # yes, you can say show :people instead of show Person, no need for the shift key :)
@@ -60,7 +69,7 @@ end
 
 #shortcut for listing helpers in yaml format
 def list_helpers
-  @irb_standalone_running ? puts("Sorry, This is only valid in script/console") : y(helper.methods.sort)
+  irb_standalone? ? puts("Sorry, This is only valid in script/console") : y(helper.methods.sort)
 end
 
 # determines what editors are available and will open a file in that editor
@@ -80,7 +89,9 @@ def less(content)
 end
 
 # script/console hooks
-if @script_console_running
+if rails2_compatible? || rails3_compatible?
+  #inline console logging
+  add_console_logging
   
   # hook into script/find
   # needs git@github.com:vanntastic/project_search.git
