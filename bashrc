@@ -152,6 +152,15 @@ test_unit () {
 	fi
 }
 
+# abstract append text behavior into a function
+append () {
+  if [[ -n "$1" ]]; then
+    echo $1 >> $2;
+  else
+    echo "USAGE : append 'your text' [file_to_append]";
+  fi
+}
+
 # function to apply templates from app_templates folder
 rails_template () {
 	if [[ -n "$1" ]]; then
