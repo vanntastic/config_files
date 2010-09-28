@@ -2,8 +2,8 @@
 require 'rubygems'
 require 'irb/completion'
 require 'logger'
-# this is kind of stupid ... you have to gem the wirble gem and then send a require 
 # NOTE : you have to add thees gems to your Gemfile for rails 3 compatibility
+# this is kind of stupid ... you have to gem the wirble gem and then send a require 
 gem 'wirble'
 require 'wirble'
 gem 'map_by_method'
