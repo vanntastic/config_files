@@ -32,7 +32,7 @@ def add_console_logging
 end
 
 def irb_standalone?
-  !rails3_compatible? || !rails2_compatible
+  !rails3_compatible? || !rails2_compatible?
 end
 
 # reloads the irb console can be useful for debugging .irbrc
@@ -1409,7 +1409,7 @@ class Object
       columns
     end
     
-end if @script_console_running 
+end if (rails3_compatible? || rails2_compatible?)
 
 # generates a random date
 # you can simply call it like random_date to generate a simple random date
