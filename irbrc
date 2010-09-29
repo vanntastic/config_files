@@ -18,8 +18,7 @@ IRB.conf[:AUTO_INDENT]=true
 EDITORS = %w{mate jedit} unless Object.const_defined?(:EDITORS)
 
 def rails2_compatible?
-  @script_console_running = ENV.include?('RAILS_ENV') && IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers')
-  @rails_running = ENV.include?('RAILS_ENV') && !(IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
+  ENV.include?('RAILS_ENV') && (IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
 end
 
 def rails3_compatible?
@@ -27,13 +26,13 @@ def rails3_compatible?
 end
 
 def add_console_logging
-  if (rails2_compatible? || rails3_compatible?) && !Object.constants.include?("RAILS_DEFAULT_LOGGER")
+  if !Object.constants.include?("RAILS_DEFAULT_LOGGER")
     Object.const_set(:RAILS_DEFAULT_LOGGER, Logger.new(STDOUT))
   end
 end
 
 def irb_standalone?
-  @irb_standalone_running = !@script_console_running && !@rails_running
+  !rails3_compatible? || !rails2_compatible
 end
 
 # reloads the irb console can be useful for debugging .irbrc
