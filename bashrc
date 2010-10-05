@@ -66,9 +66,7 @@ alias git-add='git add .'
 alias git-unstage='git co HEAD .'
 
 # **** START SYNERGY HERE **** 
-alias start_synergy_xp='/Applications/synergy/synergys -f --config /Users/vann/synergy_xp.conf'
-alias start_synergy_itwrk001='/Applications/synergy/synergys -f --config /Users/vann/synergy_itwrk001.conf'
-alias start_synergy_ubuntu='/Applications/synergy/synergys -f --config /Users/vann/synergy_ubuntu.conf'
+alias synergy-start-vannsrv='synergys -f --config ~/synergy-confg/vannsrv.conf'
 
 # **** MYSQL ****
 alias mysql_stop='sudo launchctl unload -w /Library/LaunchDaemons/com.mysql.mysqld.plist'
