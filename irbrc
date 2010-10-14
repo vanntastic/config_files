@@ -32,7 +32,7 @@ def add_console_logging
 end
 
 def irb_standalone?
-  !rails3_compatible? || !rails2_compatible?
+  !rails3_compatible? && !rails2_compatible?
 end
 
 # reloads the irb console can be useful for debugging .irbrc
