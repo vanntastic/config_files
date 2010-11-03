@@ -70,10 +70,12 @@ endif " has("autocmd")
   " set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
 " endif
 
-" Softtabs, 2 spaces
+" Softtabs, 2 spaces, autoindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set autoindent
+set cinkeys=0{,0},:,0#,!,!^F
 
 " Always display the status line
 set laststatus=2
