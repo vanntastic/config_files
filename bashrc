@@ -90,6 +90,8 @@ alias apache_restart='sudo apachectl restart'
 alias apache_stop='sudo apachectl stop'
 alias apache_start='sudo apachectl start'
 alias apache_vhosts='sudo mate /private/etc/apache2/extra/httpd-vhosts.conf'
+alias apache_access_log='tail -f /var/log/apache2/access_log'
+alias apache_error_log='tail -f /var/log/apache2/error_log'
 
 alias sqlite='sqlite3'
 # a quick alias to download files using curl
