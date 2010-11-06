@@ -115,6 +115,8 @@ map <Leader>] :!
 map <Leader>d :!git diff % <CR>
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
+" After selecting a visual block, use the following to comment multlines
+map <Leader>3 :s/^/# /<CR>
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
