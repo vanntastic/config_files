@@ -591,7 +591,7 @@ svn_diff(){
 	if [ -n "$1" ]; then
 		svn diff $1 | colordiff | less -R
 	else
-		echo "USAGE svn_diff [file|dir]"
+    svn diff . | colordiff | less -R
 	fi
 }
 
