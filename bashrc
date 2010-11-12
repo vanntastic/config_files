@@ -51,6 +51,7 @@ alias svn_files_to_add='svn st | grep ?'
 alias svn_files_added='svn st | grep A'
 alias svn_files_modified='svn st | grep M'
 alias svn_files_deleted='svn st | grep D'
+alias svn_ci='svn ci -m'
 
 alias e='mate'
 

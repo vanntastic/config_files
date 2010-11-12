@@ -7,6 +7,10 @@ require 'logger'
 gem 'wirble'
 require 'wirble'
 gem 'map_by_method'
+# add in ap and fancy_irb
+require 'fancy_irb'
+
+FancyIrb.start :rocket_mode => false
 
 #load wirble
 Wirble.init
