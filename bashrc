@@ -45,6 +45,8 @@ alias models='ls app/models'
 alias test_log='tail -f log/test.log'
 alias ch='cheat'
 alias ch_sheets='cheat sheets | less'
+# since we don't use the stock ruby, let's ensure that that livereload works properly with osx's cocoaruby
+alias reload='rvm use --system;livereload .'
 
 # **** SVN ALIASES ****
 alias svn_files_to_add='svn st | grep ?'
