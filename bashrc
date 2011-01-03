@@ -3,7 +3,8 @@
 # apropos -- Display a list of commands that pertain to (are apropos to) a keyword
 # whereis -- Display information about the location of a command: the executable, the source code (if any), and the man pages.
 # which -- Display which version of a command will execute (for when there are two, or more, commands with the same name installed on the system).
-
+export PATH="/Library/PostgreSQL/8.4/bin/:/Users/vek/bin:/opt/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local:/bin:$PATH"
+export PG_BIN='/Library/PostgreSQL/8.4/bin/'
 #TIP: you can use the following args: $* = all arguments; $1 = first arg; $2 = second arg and so on
 
 # **** MEMCACHED STUFF ****
@@ -107,6 +108,8 @@ alias jquery_install_facebox='git clone git://github.com/defunkt/facebox'
 # EX:
 #   setup_keys you@yourhost.com
 #   # now you should be able to get in w/o a password!
+#   TODO : update this to detect for previous authorized_keys, so it doesn't
+#          delete or overwrite previous keys
 setup_keys () {
   if [[ -n "$1" ]]; then
     ssh $1 'mkdir -p ~/.ssh';
@@ -246,16 +249,19 @@ new_thematic_theme () {
   
 }
 
-#SVN Shortcuts specifically designed for innerfusion server
-#USAGE: svn_ls [name_of_repos]
-# 2007-12-16 changed the subdomain internal.innerfusion.net to ip : 66.41.217.222
-svn_ls () { svn ls "svn://internal.innerfusion.us/$1"; }
-svn_add_new () { svn status | grep "^?" | sed -e "s/? *//" | sed -e "s/ / /g" | xargs svn add; }
-svn_rm_all () { svn status | grep "^!" | sed -e "s/! *//" | sed -e "s/ / /g" | xargs svn rm; }
-# pulls the last 10 logs from the repos
-# svn_log () { svn log --limit 5; }
-svn_co () { svn co "svn://internal.innerfusion.us/$1"; }
-svn_co_rename () { svn co "svn://internal.innerfusion.us/$1" $2; }
+# yui compressor 
+# compresses and minifies css/js files using yui compressor
+# EX: compress [name_of_file] [path/to/compressed/file]
+# grab more info about yui compressor @ http://developer.yahoo.com/yui/compressor/#work
+compress () {
+  
+  if [[ -n "$1" ]]; then
+    java -jar ~/bin/yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar $1 -o $2
+  else
+    echo "EX: compress [name_of_file] [path/to/compressed/file]"
+  fi
+}
+
 
 # toggles the display of the finder hidden files, pass true or false to it
 show_hidden_files () {

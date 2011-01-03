@@ -7,16 +7,13 @@ require 'logger'
 gem 'wirble'
 require 'wirble'
 gem 'map_by_method'
-# add in ap and fancy_irb
-require 'fancy_irb'
-
-FancyIrb.start :rocket_mode => false
 
 #load wirble
 Wirble.init
 Wirble.colorize
 
 IRB.conf[:AUTO_INDENT]=true
+IRB.conf[:USE_READLINE] = true
 
 #list of editors for use with editing and opening files, you can re-arrange as to set precedence of what to use
 EDITORS = %w{mate jedit} unless Object.const_defined?(:EDITORS)
