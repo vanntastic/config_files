@@ -596,7 +596,7 @@ svn_import(){
 }	
 
 #USAGE svn_diff [file|dir]
-svn_diff(){
+svn-diff(){
 	if [ -n "$1" ]; then
 		svn diff $1 | colordiff | less -R
 	else
@@ -605,13 +605,13 @@ svn_diff(){
 }
 
 #USAGE svn_log [file|dir] [limit]
-svn_log(){
+svn-log(){
 	if [ $# -eq 1 ]; then
-		svn log svn://internal.innerfusion.us/$1 | less
+		svn log $1 | less | colordiff
 	elif [ $# -ge 2 ]; then
-		svn log svn://internal.innerfusion.us/$1 --limit $2 | less
+		svn log $1 --limit $2 | less | colordiff
 	else
-		svn log | less
+		svn log | less | colordiff
 	fi
 }
 

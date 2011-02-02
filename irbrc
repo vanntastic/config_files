@@ -362,7 +362,10 @@ if rails2_compatible? || rails3_compatible?
       # runs said spec commands and appends a name if given
       unless type == :all
         test_cmd << " -n '#{test_name}'" unless test_name.nil?
-        test_cmd ='kicker --no-growl -e "' << test_cmd << '" .' if system("which kicker")
+        # kicker only works well with stock ruby
+        unless system("which rvm")
+          test_cmd ='kicker --no-growl -e "' << test_cmd << '" .' if system("which kicker")
+        end
         system(test_cmd)
       end
       
