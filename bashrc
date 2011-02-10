@@ -702,3 +702,11 @@ source ~/.git_completion
 # PS1=$'\[\e]2;\]$PWD\[\a\]\[\e]1;$(basename $(dirname $PWD))/\W\[\a\]\$ '
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+function t() { 
+  if [ $# -eq 0 ]; then
+    todo -d /Users/vek/todo.cfg ls
+  else
+    todo -d /Users/vek/todo.cfg $* 
+  fi
+}
