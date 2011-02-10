@@ -108,12 +108,11 @@ alias jquery_install_facebox='git clone git://github.com/defunkt/facebox'
 # EX:
 #   setup_keys you@yourhost.com
 #   # now you should be able to get in w/o a password!
-#   TODO : update this to detect for previous authorized_keys, so it doesn't
-#          delete or overwrite previous keys
 setup_keys () {
   if [[ -n "$1" ]]; then
     ssh $1 'mkdir -p ~/.ssh';
-    scp ~/.ssh/id_rsa.pub $1:~/.ssh/authorized_keys
+    scp ~/.ssh/id_rsa.pub $1:~/.ssh/key_tmp
+    ssh $1 'cat ~/.ssh/key_tmp >> ~/.ssh/authorized_keys; rm ~/.ssh/key_tmp'
   else
     echo "USAGE : setup_keys [ssh_host_name]"
   fi
