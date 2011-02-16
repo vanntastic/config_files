@@ -50,11 +50,11 @@ alias ch_sheets='cheat sheets | less'
 alias reload='rvm use --system;livereload .'
 
 # **** SVN ALIASES ****
-alias svn_files_to_add='svn st | grep ?'
-alias svn_files_added='svn st | grep A'
-alias svn_files_modified='svn st | grep M'
-alias svn_files_deleted='svn st | grep D'
-alias svn_ci='svn ci -m'
+alias svn-files-to-add='svn st | grep ?'
+alias svn-files-added='svn st | grep A'
+alias svn-files-modified='svn st | grep M'
+alias svn-files-deleted='svn st | grep D'
+alias svn-ci='svn ci -m'
 
 alias e='mate'
 
@@ -290,6 +290,16 @@ svn_ignore () {
 	else
 		echo "USAGE: svn_ignore [folder]";
 	fi	
+}
+
+# adds all svn files with awk
+function svn-add () {
+  svn status|awk '{if ($1 == "?") print $2}'|xargs svn add
+}
+
+# removes all svn files with awk
+function svn-rm () {
+  svn status|awk '{if ($1 == "!") print $2}'|xargs svn rm
 }
 
 # commits to git and svn

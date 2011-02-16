@@ -110,7 +110,7 @@ map <Leader>q :bd<CR>
 " Close vim and save
 map <Leader>wq :wq!
 " access to commands
-map <Leader>] :!
+map <Leader>[ :!
 " Git diff on the current file
 map <Leader>d :!git diff % <CR>
 " Hide search highlighting
@@ -127,9 +127,11 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Map the surround word plugin
-map <Leader>s ysiw
+map <Leader>] ysiw
 " Map the surround word - tag plugin
-map <Leader>st ysiwt
+map <Leader>]t ysiwt
+" Map the source word - tag - line
+map <Leader>]tl ysst
 
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
@@ -163,7 +165,7 @@ imap <C-z> <C-c>ui
 vmap P p :call setreg('"', getreg('0')) <CR>
 
 " Display extra whitespace
-set list listchars=tab:»·,trail:·
+" set list listchars=tab:»·,trail:·
 
 " Edit routes
 command! Rroutes :e config/routes.rb
