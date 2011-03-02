@@ -2,3 +2,4 @@
 .swo
 vim/.netrwhist
 gitconfig
+.DS_Store

@@ -138,7 +138,7 @@ map <Leader>]tl ysst
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
 " Maps autocomplete to tab
-imap <Tab> <C-N>
+" imap <Tab> <C-N> 
 
 " Duplicate a selection
 " Visual mode: D
