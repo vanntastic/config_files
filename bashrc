@@ -23,6 +23,10 @@ alias flush_dns='dscacheutil -flushcache'
 # **** STUFF FOR IRB ****
 alias irbrc='vi ~/.irbrc'
 
+# **** MONGO DB ****
+# Use the homebrew version of mongodb instad
+alias mongo_start='mongod run --config /usr/local/Cellar/mongodb/1.6.3-x86_64/mongod.conf'
+
 # **** BASH EDITING ****
 alias bashrc='vi ~/.bashrc'
 alias reload_bash='. ~/.bashrc;. ~/.bash_login'
