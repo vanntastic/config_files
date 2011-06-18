@@ -6,7 +6,7 @@ require 'logger'
 # this is kind of stupid ... you have to gem the wirble gem and then send a require 
 gem 'wirble'
 require 'wirble'
-gem 'map_by_method'
+# gem 'map_by_method'
 
 #load wirble
 Wirble.init
@@ -17,7 +17,6 @@ IRB.conf[:USE_READLINE] = true
 
 #list of editors for use with editing and opening files, you can re-arrange as to set precedence of what to use
 EDITORS = %w{mate jedit} unless Object.const_defined?(:EDITORS)
-
 def rails2_compatible?
   ENV.include?('RAILS_ENV') && (IRB.conf[:LOAD_MODULES] && IRB.conf[:LOAD_MODULES].include?('console_with_helpers'))
 end
@@ -1368,6 +1367,7 @@ class Object
   
   protected
     def using_foxy_fixtures?
+      return false if defined?(RAILS_GEM_VERSION).nil?
       # require 'test_help' if RAILS_GEM_VERSION.to_i >= 2
       if RAILS_GEM_VERSION.to_i >= 2
         require 'active_record'
