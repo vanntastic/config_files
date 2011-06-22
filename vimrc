@@ -202,9 +202,9 @@ map <C-d> :bd<Enter>
 map <Leader>o :FufBuffer<Enter>
 map <Leader>t :FufJumpList<Enter>
 map <Leader>f :FufFile<Enter>
-map <c-o> :FufBuffer<Enter> 
-map <c-t> :FufJumpList<Enter>
-map <c-f> :FufFile<Enter>
+map <C-o> :FufBuffer<Enter> 
+map t :FufJumpList<Enter>
+map f :FufFile<Enter>
 " yank line - Copy line
 map <c-c> Y
 
