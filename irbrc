@@ -29,6 +29,7 @@ def add_console_logging
   if !Object.constants.include?("RAILS_DEFAULT_LOGGER")
     Object.const_set(:RAILS_DEFAULT_LOGGER, Logger.new(STDOUT))
   end
+  ActiveRecord::Base.logger = Logger.new(STDOUT) if rails3_compatible?
 end
 
 def irb_standalone?
