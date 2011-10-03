@@ -52,6 +52,7 @@ alias ch='cheat'
 alias ch_sheets='cheat sheets | less'
 # since we don't use the stock ruby, let's ensure that that livereload works properly with osx's cocoaruby
 alias reload='rvm use --system;livereload .'
+alias kicker='rvm use --system;kicker'
 
 # **** SVN ALIASES ****
 alias svn-files-to-add='svn st | grep ?'
@@ -72,6 +73,7 @@ alias git-config='cat .git/config | less'
 alias git-ignore='vi .gitignore'
 alias git-add='git add .'
 alias git-unstage='git co HEAD .'
+alias git-remote-branch-co='git br --track'
 
 # **** START SYNERGY HERE **** 
 alias synergy-start-vannsrv='synergys -f --config ~/synergy-conf/vannsrv.conf'
