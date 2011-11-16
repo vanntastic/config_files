@@ -73,7 +73,9 @@ alias git-config='cat .git/config | less'
 alias git-ignore='vi .gitignore'
 alias git-add='git add .'
 alias git-unstage='git co HEAD .'
-alias git-remote-branch-co='git br --track'
+alias git-rollback='git reset --hard HEAD~1' # rollback one commit
+alias git-remote-branch-co='git co -t'
+alias gsvndiff='git diff --no-prefix | sed -e "s/^diff --git [^[:space:]]*/Index:/" -e "s/^index.*/===================================================================/" '
 
 # **** START SYNERGY HERE **** 
 alias synergy-start-vannsrv='synergys -f --config ~/synergy-conf/vannsrv.conf'

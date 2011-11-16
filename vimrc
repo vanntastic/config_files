@@ -156,8 +156,8 @@ imap <C-F> <C-R>=expand("%")<CR>
 " Shortcut for hash arrow
 imap <C-m> =>
 " Beginning and end of line in insert mode
-imap <C-a> <C-c><C-a>i
-imap <C-e> <C-c><C-e>a
+imap <D-a> <C-c><Leader>a i
+imap <D-e> <C-c><Leader>e i
 " Undo
 imap <C-z> <C-c>ui
 
@@ -188,8 +188,8 @@ highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Map bol and eol to the same style as the shell
-map <C-e> $
-map <C-a> ^
+map <Leader>e $
+map <Leader>a ^
 " Insert text into the next line
 map <C-i> A<Enter>
 " Quit real quick without saving
