@@ -70,6 +70,10 @@ endif " has("autocmd")
   " set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
 " endif
 
+" enable per directory vim configs
+set exrc
+set secure
+
 " Softtabs, 2 spaces, autoindent
 set tabstop=2
 set shiftwidth=2
