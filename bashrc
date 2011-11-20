@@ -17,7 +17,7 @@ alias memcache_connect='telnet localhost 11211'
 alias trail='tail -f'
 
 # **** NETWORK STUFF ****
-alias ip='ifconfig | grep inet'
+alias ip='ifconfig | grep inet; echo "External IP:"; curl ifconfig.me'
 alias flush_dns='dscacheutil -flushcache'
 
 # **** STUFF FOR IRB ****
