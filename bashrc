@@ -19,6 +19,7 @@ alias trail='tail -f'
 # **** NETWORK STUFF ****
 alias ip='ifconfig | grep inet; echo "External IP:"; curl ifconfig.me'
 alias flush_dns='dscacheutil -flushcache'
+alias serve='python -m SimpleHTTPServer'
 
 # **** STUFF FOR IRB ****
 alias irbrc='vi ~/.irbrc'
@@ -35,6 +36,9 @@ alias ll='ls -Al'
 # **** SSH SHORTCUTS ****
 alias ssh_config='vi ~/.ssh/config'
 alias ssh_keys='mate ~/.ssh/known_hosts'
+
+# **** OSX SHORTCUTS ****
+alias enablepressandhold='defaults write -g ApplePressAndHoldEnabled -bool '
 
 # **** RAILS/RUBY SPECIFIC ALIASES ****
 alias console='./script/console'
@@ -53,6 +57,7 @@ alias ch_sheets='cheat sheets | less'
 # since we don't use the stock ruby, let's ensure that that livereload works properly with osx's cocoaruby
 alias reload='rvm use --system;livereload .'
 alias kicker='rvm use --system;kicker'
+alias thinweb='thin -R ~/config_files/thin_configs/static.ru start'
 
 # **** SVN ALIASES ****
 alias svn-files-to-add='svn st | grep ?'
@@ -74,7 +79,7 @@ alias git-ignore='vi .gitignore'
 alias git-add='git add .'
 alias git-unstage='git co HEAD .'
 alias git-rollback='git reset --hard HEAD~1' # rollback one commit
-alias git-remote-branch-co='git co -t'
+alias git-track='git co -t'
 alias gsvndiff='git diff --no-prefix | sed -e "s/^diff --git [^[:space:]]*/Index:/" -e "s/^index.*/===================================================================/" '
 
 # **** START SYNERGY HERE **** 
