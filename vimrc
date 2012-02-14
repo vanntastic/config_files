@@ -24,6 +24,7 @@ call pathogen#infect()
 " text is lost and it only works for putting the current register.
 "vnoremap p "_dp
 
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
@@ -165,6 +166,8 @@ imap <D-a> <C-c><Leader>a i
 imap <D-e> <C-c><Leader>e i
 " Undo
 imap <C-z> <C-c>ui
+" Get out of insert mode quick
+inoremap qq <ESC>
 
 " Press Shift+P while in visual mode to replace the selection without
 " overwriting the default register
@@ -191,6 +194,11 @@ endif
 colorscheme vividchalk
 highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
+" Cursor Line Settings
+set cursorline  
+hi CursorLine   cterm=NONE ctermbg=blue ctermfg=white guibg=gray guifg=white
+hi CursorColumn cterm=NONE ctermbg=blue ctermfg=white guibg=gray guifg=white
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " Map bol and eol to the same style as the shell
 map <Leader>e $

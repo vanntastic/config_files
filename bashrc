@@ -3,8 +3,11 @@
 # apropos -- Display a list of commands that pertain to (are apropos to) a keyword
 # whereis -- Display information about the location of a command: the executable, the source code (if any), and the man pages.
 # which -- Display which version of a command will execute (for when there are two, or more, commands with the same name installed on the system).
-export PATH="/Library/PostgreSQL/8.4/bin/:/Users/vek/bin:/opt/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local:/bin:$PATH"
+export PATH="/Library/PostgreSQL/8.4/bin/:/Users/vek/bin:/opt/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local:/bin:$HOME/.rbenv/bin:$PATH"
 export PG_BIN='/Library/PostgreSQL/8.4/bin/'
+export NODE_PATH='/Users/vek/node_modules'
+# rbenv helpers
+eval "$(rbenv init -)"
 #TIP: you can use the following args: $* = all arguments; $1 = first arg; $2 = second arg and so on
 
 # **** MEMCACHED STUFF ****
@@ -116,6 +119,15 @@ alias dl='curl -O'
             
 # install facebox via git                      
 alias jquery_install_facebox='git clone git://github.com/defunkt/facebox'                      
+
+# quick function for setting up a foundation based site using sass
+new_foundation () {
+  if [[ -n "$1" ]]; then
+    compass create $1 -r ZURB-foundation --using ZURB-foundation --syntax sass --force
+  else
+    echo "USAGE : new_foundation <name of site>"
+  fi
+}
 
 # scp keys for a server, useful when setting up a server for the very first time
 # EX:
@@ -723,7 +735,8 @@ source ~/.git_completion
 # PS1=$'\[\e];\]$PWD\[\a\]\[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]\u >> '
 # PS1=$'\[\e]2;\]$PWD\[\a\]\[\e]1;$(basename $(dirname $PWD))/\W\[\a\]\$ '
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+# Old RVM stuff
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 function t() { 
   if [ $# -eq 0 ]; then
