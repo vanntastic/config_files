@@ -196,8 +196,12 @@ highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 " Cursor Line Settings
 set cursorline  
-hi CursorLine   cterm=NONE ctermbg=blue ctermfg=white guibg=gray guifg=white
+" hi CursorLine   cterm=NONE ctermbg=black ctermfg=none guibg=black guifg=None
 hi CursorColumn cterm=NONE ctermbg=blue ctermfg=white guibg=gray guifg=white
+" Change Color when entering Insert Mode
+autocmd InsertEnter * highlight  CursorLine ctermbg=Blue ctermfg=None
+" Revert Color to default when leaving Insert Mode
+autocmd InsertLeave * highlight  CursorLine ctermbg=black ctermfg=none
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " Map bol and eol to the same style as the shell
