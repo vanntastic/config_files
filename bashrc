@@ -5,7 +5,7 @@
 # which -- Display which version of a command will execute (for when there are two, or more, commands with the same name installed on the system).
 export PATH="/Library/PostgreSQL/8.4/bin/:/Users/vek/bin:/opt/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local:/bin:$HOME/.rbenv/bin:$PATH"
 export PG_BIN='/Library/PostgreSQL/8.4/bin/'
-export NODE_PATH='/Users/vek/node_modules'
+export NODE_PATH='/usr/local/lib/node_modules'
 # rbenv helpers
 eval "$(rbenv init -)"
 #TIP: you can use the following args: $* = all arguments; $1 = first arg; $2 = second arg and so on
@@ -22,7 +22,7 @@ alias trail='tail -f'
 # **** NETWORK STUFF ****
 alias ip='ifconfig | grep inet; echo "External IP:"; curl ifconfig.me'
 alias flush_dns='dscacheutil -flushcache'
-alias serve='python -m SimpleHTTPServer'
+#alias serve='python -m SimpleHTTPServer'
 
 # **** STUFF FOR IRB ****
 alias irbrc='vi ~/.irbrc'
@@ -117,6 +117,18 @@ alias dl='curl -O'
 # install facebox via git                      
 alias jquery_install_facebox='git clone git://github.com/defunkt/facebox'                      
 
+# crashplan engine restart
+cp_restart () {
+  if [[ -n "$1" ]]; then
+    echo "Stopping CrashPlan Engine..."
+    sudo launchctl unload /Library/LaunchDaemons/com.crashplan.engine.plist
+    echo "Starting CrashPlan Engine..."
+    sudo launchctl load /Library/LaunchDaemons/com.crashplan.engine.plist
+  else
+    echo "Restarts crashplan engine"
+  fi
+}
+
 # quick function for setting up a foundation based site using sass
 new_foundation () {
   if [[ -n "$1" ]]; then
@@ -149,25 +161,6 @@ kick_spec () {
   fi
 }
 
-jquery_install_plugin () {
-	if [[ -n "$1" ]]; then
-		svn export "svn://internal.innerfusion.us/lib/javascript/jquery/plugins/$1";
-		echo "Jquery Plugin : $1 has been installed";
-	else
-		echo "USAGE : jquery_install_plugin [name_of_plugin]";
-	fi
-}
-
-# this install jquery plugins for any rails apps
-jquery_install_plugin_rails () {
-	if [[ -n "$1" ]]; then
-		svn export "svn://internal.innerfusion.us/lib/javascript/jquery/plugins/$1 public/javascripts/$1";
-		echo "Jquery Plugin : $1 has been installed";
-	else
-		echo "USAGE : jquery_install_plugin [name_of_plugin]";
-	fi
-}
-
 # simple wrappers for running unit and functional tests in rails apps
 # INSTEAD OF : ruby test/unit/user_test.rb
 # DO THIS : test_unit user
@@ -185,20 +178,6 @@ append () {
     echo $1 >> $2;
   else
     echo "USAGE : append 'your text' [file_to_append]";
-  fi
-}
-
-# function to apply templates from app_templates folder
-rails_template () {
-	if [[ -n "$1" ]]; then
-	  rake rails:template LOCATION=~/rails/app_templates/$1.rb;
-  else
-    echo "USAGE : rails_template [name_of_template]";
-    echo "-----------------------------------------";
-    echo "Available Templates:";
-    echo "-----------------------------------------";
-    ls ~/rails/app_templates;
-    echo "-----------------------------------------";
   fi
 }
 
@@ -223,21 +202,6 @@ test_spec () {
 #Useful shortcut for find a gem
 find_gem () { gem list | grep "$1"; }
 
-# retrieve all your favorite tasks from your the sake dir
-get_tasks () { 
-	cp ~/rails/sake_tasks/database.rake lib/tasks/database.rake;
-	cp ~/rails/sake_tasks/test.rake lib/tasks/test.rake;
-	cp ~/rails/sake_tasks/svn_tasks.rake lib/tasks/svn_tasks.rake
-	echo "Your tasks has been copied over..."; 
-}
-
-install_rake () {
-	cp ~/rake_files/Rakefile Rakefile;
-	echo "Rake has been installed... the following tasks are available below:"
-	echo "======"
-	rake -T;
-}
-
 # clones a plugin from github for your rails project
 # USAGE install_github_plugin [git_repo_url]
 install_github_plugin () {
@@ -249,23 +213,6 @@ install_github_plugin () {
     echo "Plugin installed successfully!";
   else
     echo "USAGE : install_github_plugin [git_repo_url]";
-  fi
-  
-}
-
-# generates a new wp child theme based on thematic 
-# note : this generates a theme based on thematic 0.9, you can revert to thematic 0.8.1
-#        by remove the '_0_9' suffix from wp_template_0_9
-new_thematic_theme () {
-  
-  if [[ -n "$1" ]]; then
-    svn_cp wordpress/themes/wp_template_0_9 wordpress/themes/$1;
-    cd wp-content/themes;
-    svn_co wordpress/themes/$1;
-    cd ../../;
-    echo "Your theme : $1 is generated and ready to go!";
-  else
-    echo "USAGE : new_thematic_theme [name_of_theme]";
   fi
   
 }
@@ -294,17 +241,6 @@ show_hidden_files () {
 	fi	
 }
 
-# toggles space switching
-space_switching () {
-	if [ -n "$1" ]; then
-		defaults write com.apple.Dock workspaces-auto-swoosh -bool $1
-		killall Dock
-	else
-		echo "USAGE: space_switching [NO/YES]"
-	fi
-
-}
-
 # set up the svn:ignore props
 svn_ignore () {
 	if [ -n "$1" ]; then
@@ -322,361 +258,6 @@ function svn-add () {
 # removes all svn files with awk
 function svn-rm () {
   svn status|awk '{if ($1 == "!") print $2}'|xargs svn rm
-}
-
-# commits to git and svn
-svn_git_ci () {
-	if [ -n "$1" ]; then
-	  git add .;
-		git commit -m "$1";
-		svn_add_new;
-		svn ci -m "$1";
-	else
-		echo "USAGE: svn_git_ci [message]";
-	fi	
-}
-
-# runs svn up and pulls from origin master if using github
-svn_github_up () {
-	svn up;
-	git pull origin master;
-}
-
-# gets the status for both svn and git
-svn_git_st () {
-  echo "SVN status";
-  echo "--";
-  svn st;
-  echo "==";
-  echo "GIT status";
-  echo "--"
-  git st;
-}
-
-
-# create a standard project with trunk/tags/branches structure
-svn_new_project () {
-	if [ -n "$1" ]; then
-		svn cp "svn://internal.innerfusion.net/templates/project_skeleton" "svn://internal.innerfusion.net/$1" "-m $2";
-		echo "Copying new project: $1 ..."
-		echo "Checking out new project: $1 ..."
-		svn co "svn://internal.innerfusion.net/$1/trunk" "$1"
-	else
-		echo "USAGE: svn_new_project [name_of_project] [message]"	
-	fi
-}
-
-# creates a rails plugin template and copies it to the main plugin repos and checks it out to the
-# current rails project
-new_rails_plugin () {
-	if [ -n "$1" ]; then
-		echo "Grabbing and Copying Plugin Template..."
-		svn cp svn://internal.innerfusion.us/templates/rails_plugin svn://internal.innerfusion.us/rails/plugins/"$1" "-m '[ADD] creating a rails plugin named : $1'"
-		
-    # rename all the files based on the plugin name
-		echo "Renaming all plugin files"
-		svn mv svn://internal.innerfusion.us/rails/plugins/"$1"/lib/template.rb svn://internal.innerfusion.us/rails/plugins/"$1"/lib/"$1".rb -m "renaming template file to $1"
-		
-		svn mv svn://internal.innerfusion.us/rails/plugins/"$1"/test/template_test.rb svn://internal.innerfusion.us/rails/plugins/"$1"/test/"$1"_test.rb -m "renaming test file to $1"
-		
-	  svn mv svn://internal.innerfusion.us/rails/plugins/"$1"/tasks/template_tasks.rake svn://internal.innerfusion.us/rails/plugins/"$1"/tasks/"$1"_tasks.rake -m "renaming task file to $1"
-  	
-		echo "Checking out and installing plugin externally : $1"
-		./script/plugin install "$1" -x
-	else
-		echo "USAGE : new_rails_plugin [name_of_plugin]"
-	fi	
-}
-
-# generate a rails app with my special defaults
-new_rails_app () {
-  if [ -n "$1" ]; then
-    echo "Generating Rails App : $1...";
-    rails $1;
-    echo "Setting up svn...";
-    svn_mkdir $1;
-    echo "Setting up tags...";
-    svn_mkdir "$1/tags";
-    echo "Setting up trunk...";
-    svn_mkdir "$1/trunk";
-    echo "Setting up branches...";
-    svn_mkdir "$1/branches";
-    echo "Importing $1/trunk/$1...";
-    svn_import $1 "$1/trunk/$1";
-    echo "Cleaning up..."
-    rm -rf $1;
-    svn_co "$1/trunk/$1";
-    cd $1;
-    rm config/database.yml;
-    rm public/index.html;
-    rm -rf tmp/*;
-    svn_rm_all;
-    svn ci -m "removing old defaults...";
-    echo "ignore database.yml and tmp files...";
-    svn propset svn:ignore "*.yml" config;
-    svn propset svn:ignore "*" tmp;
-    svn propset svn:ignore "*" log;
-    svn up;
-    svn ci -m "commit ignore changes...";
-    echo "applying templates...";
-    # add more templates here if needed
-    rake rails:template LOCATION=~/rails/app_templates/db.rb;
-    rake rails:template LOCATION=~/rails/app_templates/jquery.rb;
-    svn_add_new
-    svn ci -m "added database example yml";
-    mkdir tmp/pids;
-    mkdir tmp/cache;
-    mkdir tmp/sessions;
-    mkdir tmp/sockets;
-    echo "Done."
-    mate .;
-  else
-    echo "USAGE: new_rails_app [name_of_project]" 
-  fi
-}
-
-# this will generate a mephisto cms based of the git repo...
-new_mephisto_cms () {
-  if [[ -n "$1" ]]; then
-    echo "Generating new project structure"
-    svn mkdir "svn://internal.innerfusion.us/$1" "-m 'Create initial project folder for $1'";
-    svn mkdir "svn://internal.innerfusion.us/$1/tags" "-m 'Creating tags folder for $1'";
-    svn mkdir "svn://internal.innerfusion.us/$1/trunk" "-m 'Creating trunk folder for $1'";
-    svn mkdir "svn://internal.innerfusion.us/$1/branches" "-m 'Creating branches folder for $1'";
-    echo "Grabbing and copying template over"
-    svn cp "svn://internal.innerfusion.us/templates/mephisto" "svn://internal.innerfusion.us/$1/trunk/$1" "-m 'copying mephisto template over'";
-    echo "Initial checkout for $1"
-    svn co "svn://internal.innerfusion.us/$1/trunk/$1"
-    echo "---"
-    echo "Alright time to kick some ass!"
-    echo "---"
-  fi
-}
-
-# create a new php project from the silverstreak framework
-new_php_project () {
-  if [[ -n "$1" ]]; then
-    echo "Creating Subversion Repo..."
-    svn mkdir "svn://internal.innerfusion.net/www/$1" "-m Creating Project : $1"; 
-    echo "Checking Out Repo...";
-    svn co "svn://internal.innerfusion.net/www/$1";
-    echo "Setting Up Core Files...";
-    git clone git@github.com:vanntastic/silverstreak.git "$1/silverstreak";
-    echo "Almost Done..."
-    svn status "$1" | grep "^?" | sed -e "s/? *//" | sed -e "s/ / /g" | xargs svn add;
-    svn ci "$1" "-m Silverstreak core files commit";
-    echo "==";
-    echo "DONE!";
-  else
-    echo "USAGE: new_php_project [name_of_project]"	
-  fi
-}
-
-# create a new layout structure ... for testing layouts
-new_layout_for () {
-if [ -n "$1" ]; then
-	echo "Grabbing and copying layout template over..."
-	svn cp "svn://internal.innerfusion.net/www/templates/layouts" "svn://internal.innerfusion.net/www/layouts/$1" "-m 'Copying layout structure for $1"
-	echo "Updating layouts"
-	cd ~/Sites/layouts
-	svn up
-	cd $1
-	mate .
-else
-	echo "USAGE : new_layout_for [name_of_layout]"
-fi	
-}
-
-# commits a project and deploys it via capistrano
-ci_and_deploy() {
-	if [ -n "$1" ]; then
-		svn ci -m "$1"
-		cap deploy
-	else
-		echo "USAGE : ci_and_deploy [message for commit]"
-	fi
-}
-
-# # create a new rails cms project using mephisto based on cms_skeleton structure
-# new_rails_cms_project () {
-# if [ -n "$1" ]; then
-#   echo "Grabbing and copying template over..."
-#   svn cp "svn://internal.innerfusion.net/templates/cms_skeleton/" "svn://internal.innerfusion.net/$1" "-m 'Copying rails structure for $1'";
-#   echo "Renaming the project to : $1"
-#   svn mv "svn://internal.innerfusion.net/$1/trunk/cms_skeleton" "svn://internal.innerfusion.net/$1/trunk/$1" "-m 'renaming the trunk to the appropriate name'";
-#   echo "Generating new rails project: $1 ..."
-#   echo "Checking out new rails project: $1 ..."
-#   svn co "svn://internal.innerfusion.net/$1/trunk/$1"
-#   echo "CONGRATULATIONS YOUR NEW CMS APPLICATION : $1 IS READY!"
-#   echo "==="
-#   echo "Make sure and update the database.yml file before you get started"
-#   echo "==="
-# else
-#   echo "USAGE: new_rails_cms_project [name_of_project]" 
-# fi
-# }
-
-# create a new rails blog project using simplelog based on cms_skeleton structure
-new_rails_blog_project () {
-if [ -n "$1" ]; then
-	echo "Grabbing and copying template over..."
-	svn cp "svn://internal.innerfusion.net/templates/simplelog/" "svn://internal.innerfusion.net/$1" "-m 'Copying rails structure for $1'";
-	echo "Renaming the project to : $1"
-	echo "Generating new blog project: $1 ..."
-	echo "Checking out new blog project: $1 ..."
-	svn co "svn://internal.innerfusion.net/$1"
-	echo "CONGRATULATIONS YOUR NEW BLOG APPLICATION : $1 IS READY!"
-	echo "==="
-	echo "INSTALLATION :"
-	echo "1. Make sure and update settings in config/server"
-	echo "2. run rake simplelog:install"
-	echo "3. run ./script/server"
-	echo "4. login at : http://localhost:3000/admin with temp@email.com / !@gonow"
-	echo "5. create your theme using ./script/generate theme [name_of_theme] (if you have the theme plugin)"
-	echo "6. make sure and rename the default layout (which should be default.rhtml) to site.rhtml"
-	echo "==="
-else
-	echo "USAGE: new_rails_blog_project [name_of_project]"	
-fi
-}
-
-#USAGE svn_cp [src_folder] [dest_folder] [message]
-svn_cp (){
-	if [ -n "$1" ]; then
-		svn cp "svn://internal.innerfusion.net/$1" "svn://internal.innerfusion.net/$2" "-m $3"; 
-	else
-		echo "USAGE: svn_cp [src_folder] [dest_folder] [message]";
-	fi
-}
-
-# shortcut for versioning rails plugins in svn
-#USAGE tag_rails_plugin [plugin_name] [version] [message] 
-tag_rails_plugin(){
-	if [ -n "$1" ]; then
-		
-		svn cp "svn://internal.innerfusion.net/rails/plugins/$1" "svn://internal.innerfusion.net/rails/plugin_libs/$1/tags/$2" "-m $3"; 
-	else
-		echo "USAGE: tag_rails_plugins [plugin_name] [version] [message]";
-	fi
-}
-
-#for non-rails stuff
-#USAGE svn_tag [repos_version_from] [version] [msg]
-svn_tag () { 
-	if [ -n "$1" ]; then
-		svn cp "svn://internal.innerfusion.net/$1" "svn://internal.innerfusion.net/$1/tags/$2" "-m $3"; 
-	else
-		echo "USAGE: svn_tag [repos_version_from] [version] [msg]";
-	fi	
-}
-
-#tagging rails projects -- useful only if you used svnrails to create a rails project
-#USAGE tag_rails [repos_version_from] [version] [msg]
-tag_rails () {
-	if [ -n "$1" ]; then
-		svn cp "svn://internal.innerfusion.net/$1/trunk/$1" "svn://internal.innerfusion.net/$1/tags/$2" "-m $3"; 
-	else
-		echo "USAGE: tag_rails [repos_version_from] [version] [msg]";
-	fi
-}
-
-#USAGE versions_for [project]
-versions_for () {
-	if [ -n "$1" ]; then
-		svn ls "svn://internal.innerfusion.net/$1/tags/"; 
-	else
-		echo "Lists svn versions for a project"
-		echo "USAGE: versions_for [project]"; 
-	fi
-}
-
-#USAGE svn_rm [repos_to_remove] [msg]
-svn_rm (){ 
-	if [ -n "$1" ]; then
-		svn rm "svn://internal.innerfusion.net/$1" "-m $2"; 
-	else
-		echo "USAGE: svn_rm [repos_to_remove] [msg]";
-	fi	
-}
-
-#USAGE svn_mkdir [dir] [msg]
-svn_mkdir (){ 
-	if [ -n "$1" ]; then
-		svn mkdir "svn://internal.innerfusion.net/$1" "-m $2"; 
-	else
-		echo "USAGE: svn_mkdir [dir] [msg]";
-	fi	
-}
-
-#USAGE svn_mv [source] [dest] [msg]
-svn_mv (){ 
-	if [ -n "$1" ]; then
-		svn mv "svn://internal.innerfusion.net/$1" "svn://internal.innerfusion.net/$2" "-m $3"; 
-	else
-		echo "USAGE: svn_mv [source] [dest] [msg]";
-	fi	
-}
-
-#USAGE svn_import [file|dir] [path] [msg]
-svn_import(){
-	if [ -n "$1" ]; then
-		svn import $1 "svn://internal.innerfusion.net/$2" -m "$3"
-	else
-		echo "USAGE svn_import [file|dir] [path] [msg]"
-	fi
-}	
-
-#USAGE svn_diff [file|dir]
-svn-diff(){
-	if [ -n "$1" ]; then
-		svn diff $1 | colordiff | less -R
-	else
-    svn diff . | colordiff | less -R
-	fi
-}
-
-#USAGE svn_log [file|dir] [limit]
-svn-log(){
-	if [ $# -eq 1 ]; then
-		svn log $1 | less | colordiff
-	elif [ $# -ge 2 ]; then
-		svn log $1 --limit $2 | less | colordiff
-	else
-		svn log | less | colordiff
-	fi
-}
-
-svn_rails_log(){
-	if [ $# -eq 1 ]; then
-		svn log svn://internal.innerfusion.us/$1/trunk/$1 | less
-	elif [ $# -ge 2 ]; then
-		svn log svn://internal.innerfusion.us/$1/trunk/$1 --limit $2 | less
-	else
-		svn log | less
-	fi
-}
-
-# a quick way to install a rails plugin externally from git / github
-git_plugin (){
-  if [ -n "$1" ]; then
-    cd vendor/plugins
-    git clone $1
-    cd ../../
-    echo "==="
-    echo "Installed $1 Successfully!"
-	else
-		echo "USAGE git_plugin [git_repo_address]"
-	fi
-}
-
-# a direct hook into my github repo, simply pass in the project name and we take
-# care of the rest
-git_up (){
-  if [ -n "$1" ]; then
-    git pull git://github.com/vanntastic/$1.git
-  else
-  	echo "USAGE git_up [project_name]"
-  fi
 }
 
 # removes all deleted files / directories 
@@ -735,10 +316,4 @@ source ~/.git_completion
 # Old RVM stuff
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-function t() { 
-  if [ $# -eq 0 ]; then
-    todo -d /Users/vek/todo.cfg ls
-  else
-    todo -d /Users/vek/todo.cfg $* 
-  fi
-}
+export PATH=$HOME/local/bin:$PATH
