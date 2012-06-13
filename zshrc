@@ -13,6 +13,8 @@
 autoload -U colors
 colors
 setopt prompt_subst
+setopt extendedglob
+
 #
 # # Prompt
 local smiley="%(?,%{$fg[green]%}☺%{$reset_color%},%{$fg[red]%}☹%{$reset_color%})"
@@ -34,6 +36,7 @@ setopt menucomplete
 # # Load completions for Ruby, Git, etc.
 autoload compinit
 compinit
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
 
 # PATH Exports
 export PATH="/Library/PostgreSQL/8.4/bin/:/Users/vek/bin:/opt/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local:/bin:$HOME/.rbenv/bin:$PATH"
@@ -64,3 +67,7 @@ alias git-unstage='git co HEAD .'
 alias git-rollback='git reset --hard HEAD~1' # rollback one commit
 alias git-track='git co -t'
 alias gsvndiff='git diff --no-prefix | sed -e "s/^diff --git [^[:space:]]*/Index:/" -e "s/^index.*/===================================================================/" '
+
+# Plugins
+#
+source ~/config_files/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
